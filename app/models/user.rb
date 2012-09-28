@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
 
   validates :login, presence: true, uniqueness: true
   validates_confirmation_of :password
-  validates :password, presence: true, length: {minimum: 6}
+  validates :password, presence: true, length: {minimum: 3}
   #validates :password_confirmation, presence: true
   validates :email, :presence => true,
             :uniqueness => true,
@@ -17,13 +17,13 @@ class User < ActiveRecord::Base
   def self.find_by_login_or_email(login_or_email)
     @user = User.find_by_email(login_or_email)
     if @user
-      @user
+      return @user
     else
       @user = User.find_by_login(login_or_email)
       if @user
-        @user
+        return @user
       else
-        false
+        return false
       end
     end
   end
@@ -43,6 +43,7 @@ class User < ActiveRecord::Base
     end
 
     def check_first
+
       Role.first.update_attributes(admin: true) unless Role.find_by_admin true
     end
 end

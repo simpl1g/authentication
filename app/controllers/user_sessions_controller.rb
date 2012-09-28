@@ -1,6 +1,6 @@
 class UserSessionsController < ApplicationController
   def new
-
+    redirect_to user_path(session[:signed]) if session[:signed]
   end
 
   def check_user
