@@ -1,0 +1,29 @@
+class User < ActiveRecord::Base
+  attr_accessible :email, :login, :password, :password_confirmation, :two_step_auth
+  before_create :create_role
+  after_create :first_to_admin
+  after_destroy :check_first
+  has_one :role, dependent: :destroy
+
+  validates :login, presence: true, uniqueness: true
+  validates :password, presence: true, length: {minimum: 6}
+  #validates :password_confirmation, presence: true
+  validates :email, :presence => true,
+            :uniqueness => true,
+            :format => {:with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i}
+
+  private
+
+    def create_role
+      self.build_role(admin: false)
+      self.password = UserHelper.update(self.password)
+    end
+
+    def first_to_admin
+      Role.first.update_attributes(admin: true) if User.count == 1
+    end
+
+    def check_first
+      Role.first.update_attributes(admin: true) unless Role.first.admin
+    end
+end
