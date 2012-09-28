@@ -27,6 +27,7 @@ class UserSessionsController < ApplicationController
       clear_session
       redirect_to user_path(session[:signed])
     else
+      reset_session
       flash[:notice] = "Wrong Code or Time Expired  "
       clear_session
       redirect_to root_path

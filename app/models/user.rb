@@ -45,5 +45,4 @@ class User < ActiveRecord::Base
     Role.first.update_attributes(admin: true) unless Role.find_by_admin true
   end
 
-
 end
