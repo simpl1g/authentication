@@ -2,7 +2,9 @@ Authentication::Application.routes.draw do
   match "/login" => 'user_sessions#new', :as => :login
   match "/do_login" => 'user_sessions#create', :as => :do_login
   match "/logout" => 'user_sessions#destroy', :as => :logout
+  match "/check_user" => 'user_sessions#check_user', :as => :check
   root :to => 'user_sessions#new'
+  resources :users
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
