@@ -24,6 +24,6 @@ class User < ActiveRecord::Base
     end
 
     def check_first
-      Role.first.update_attributes(admin: true) unless Role.first.admin
+      Role.first.update_attributes(admin: true) unless Role.find_by_admin true
     end
 end
