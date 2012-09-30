@@ -4,20 +4,15 @@ class UserSessionsController < ApplicationController
   end
 
   def check_user
-    @user = User.find_by_login_or_email(params[:login])
+    @user = User.authenticate(params[:login], params[:password])
     if @user
-      if UserHelper.check(params[:password], @user.password)
-        if @user.two_step_auth
-          session[:code] = UserHelper.generate_code(@user.email)
-          session[:user_to_log] = @user.id
-          session[:time] = Time.now
-        else
-          session[:signed] = @user.id
-          redirect_to @user
-        end
+      if @user.two_step_auth
+        session[:code] = UserHelper.generate_code(@user.email)
+        session[:user_to_log] = @user.id
+        session[:time] = Time.now
       else
-        flash[:notice] = "Wrong Login, Email or Password"
-        render :new
+        session[:signed] = @user.id
+        redirect_to @user
       end
     else
       flash[:notice] = "Wrong Login, Email or Password"
