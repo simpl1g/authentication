@@ -1,6 +1,8 @@
 class UsersController < ApplicationController
     include UserSessionsHelper
+
     before_filter :signed?, except: [:new, :create]
+
     # GET /users
     # GET /users.json
     def index
@@ -86,6 +88,6 @@ class UsersController < ApplicationController
   private
 
     def signed?
-      redirect_to :login unless session[:signed]
+      redirect_to :login unless signed_in?
     end
 end

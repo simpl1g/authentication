@@ -1,7 +1,7 @@
 class UserSessionsController < ApplicationController
   include UserSessionsHelper
   def new
-    redirect_to user_path(session[:signed]) if session[:signed]
+    redirect_to user_path(current_user) if signed_in?
   end
 
   def check_user

@@ -24,6 +24,19 @@ gem 'jquery-rails'
 gem 'twitter-bootstrap-rails'
 gem 'faker'
 
+group :development, :test do
+  gem 'rspec-rails'
+  gem 'guard-rspec'
+  gem 'guard-spork'
+  gem 'spork'
+end
+
+group :test do
+  gem 'capybara'
+  gem 'libnotify'
+  gem 'rb-inotify'
+end
+
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
