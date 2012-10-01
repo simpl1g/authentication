@@ -8,9 +8,10 @@
       a.brand href="/" Authentication
       .container.nav-collapse
         ul.nav
+          li= link_to "Users", users_path
           - if signed_in?
-            li= link_to "Show", user_path(current_user)
-            li= link_to "LogOut", logout_path
+            li= link_to current_user.login, current_user, id: "current_user"
+            li= link_to "LogOut", logout_path, id: "logout"
           - else
-            li= link_to "SignIn", new_user_path
-            li= link_to "LogIn", login_path
+            li= link_to "SignIn", new_user_path, id: "sign_in"
+            li= link_to "LogIn", login_path, id: "login"

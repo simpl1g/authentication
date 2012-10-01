@@ -1,11 +1,12 @@
 class User < ActiveRecord::Base
-  attr_accessible :email, :login, :password, :password_confirmation, :two_step_auth
-  before_create :hide_password
+  attr_accessible :email, :login, :password, :password_confirmation, :two_step_auth, :code, :remember_token
+  before_save :create_remember_token
+  before_save :hide_password
   after_create :make_role
   after_create :first_to_admin
-  before_update :hide_password
   after_destroy :check_first
   has_one :role, dependent: :destroy
+  has_many :codes
 
   validates :login, presence: true, uniqueness: true
   validates_confirmation_of :password
@@ -23,11 +24,14 @@ class User < ActiveRecord::Base
     user && UserHelper.check(pass, user.password) ? user : false
   end
 
+  def admin?
+    self.role.admin?
+  end
+
   private
 
-  def my_def(login_or_email)
-    user = User.find_by_email(login_or_email) || User.find_by_login(login_or_email)
-    user ? user : false
+  def create_remember_token
+    self.remember_token = SecureRandom.urlsafe_base64
   end
 
   def hide_password

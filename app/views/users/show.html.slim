@@ -10,10 +10,11 @@ dl.dl-horizontal
     strong
       = model_class.human_attribute_name(:login)
   dd= @user.login
-  dt
-    strong
-      = model_class.human_attribute_name(:email)
-  dd= @user.email
+  - if @user.id == current_user.id
+    dt
+      strong
+        = model_class.human_attribute_name(:email)
+    dd= @user.email
   dt
     strong
       = model_class.human_attribute_name(:two_step_auth)

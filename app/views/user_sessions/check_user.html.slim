@@ -1,5 +1,5 @@
 .show
-  p#code.alert= session[:code]
+  p#code.alert= @code.generated_code
   = form_tag( url_for(controller: "user_sessions", action: "create"), :class => 'form-horizontal') do
     .control-group
       = label_tag :code, "Code", :class => 'control-label'

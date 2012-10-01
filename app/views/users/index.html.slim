@@ -8,20 +8,19 @@ table.table.table-striped
     tr
       th= model_class.human_attribute_name(:login)
       th= model_class.human_attribute_name(:email)
-      th= "Info"
+      th= model_class.human_attribute_name(:gravatar)
       th= "Admin?"
       th= t '.actions', :default => t("helpers.actions")
   tbody
     - @users.each do |user|
       tr
-        td= link_to user.login, user_path(user)
+        td= user.login
         td= user.email
         td= image_tag link_to_gravatar user.email, 50
-        td= user.role.admin
-        td
-          = link_to t('.edit', :default => t("helpers.links.edit")), \
-            edit_user_path(user), :class => 'btn btn-mini'
-          = link_to t('.destroy', :default => t("helpers.links.destroy")), user_path(user), :method => :delete,          \
-            :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }, \
-            :class => 'btn btn-mini btn-danger'
+        td= user.admin?
+        td= link_to "Show", user_path(user), class: 'btn', remote: true
+          /- if current_user.admin?
+            = link_to "Edit", edit_user_path(user), :class => 'btn btn-mini'
+            = link_to "Delete", user_path(user), :method => :delete, :data => { :confirm => 'Are you sure?'}, :class => 'btn btn-mini btn-danger'
+
 = link_to t('.new', :default => t("helpers.links.new")), new_user_path, :class => 'btn btn-primary'

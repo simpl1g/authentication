@@ -1,21 +1,28 @@
 module UserSessionsHelper
-  def sign_in(user_id)
-    session[:signed] = user_id
-  end
-
-  def sign_out
-    session[:signed] = nil
-  end
-
-  def current_user
-    session[:signed] if signed_in?
+  def sign_in(user)
+    cookies.permanent[:remember_token] = user.remember_token
+    self.current_user = user
   end
 
   def signed_in?
-    session[:signed] ? true : false
+    !current_user.nil?
   end
 
-  def clear_session
-    session[:code] = session[:time] = session[:user_to_log] = nil
+  def current_user=(user)
+    @current_user = user
   end
+
+  def current_user
+    @current_user ||= User.find_by_remember_token(cookies[:remember_token])
+  end
+
+  def current_user?(user)
+    user == current_user
+  end
+
+  def sign_out
+    self.current_user = nil
+    cookies.delete(:remember_token)
+  end
+
 end

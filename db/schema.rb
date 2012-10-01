@@ -11,7 +11,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120928082646) do
+ActiveRecord::Schema.define(:version => 20121001135135) do
+
+  create_table "codes", :force => true do |t|
+    t.integer  "generated_code"
+    t.integer  "user_id"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
+
+  add_index "codes", ["generated_code", "user_id"], :name => "index_codes_on_generated_code_and_user_id"
 
   create_table "roles", :force => true do |t|
     t.boolean  "admin",      :default => false
@@ -27,8 +36,9 @@ ActiveRecord::Schema.define(:version => 20120928082646) do
     t.string   "password"
     t.string   "email"
     t.boolean  "two_step_auth"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+    t.string   "remember_token"
   end
 
 end
