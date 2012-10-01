@@ -1,0 +1,9 @@
+.show
+  p#code.alert= session[:code]
+  = form_tag( url_for(controller: "user_sessions", action: "create"), :class => 'form-horizontal') do
+    .control-group
+      = label_tag :code, "Code", :class => 'control-label'
+      .controls
+        = text_field_tag :code, nil, :placeholder => 'Enter Code here in 30 sec...', :class => 'text_field'
+    .form-actions
+      = submit_tag "Submit", :class => 'btn btn-primary'
