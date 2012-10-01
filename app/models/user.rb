@@ -15,6 +15,8 @@ class User < ActiveRecord::Base
             :uniqueness => true,
             :format => {:with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i}
 
+  self.per_page = 10
+
   def self.authenticate(login_or_email, pass)
     user = User.find_by_email(login_or_email) || User.find_by_login(login_or_email)
     user ? user : (return false)

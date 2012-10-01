@@ -24,6 +24,7 @@ gem 'jquery-rails'
 gem 'twitter-bootstrap-rails'
 gem 'faker'
 gem 'slim'
+gem 'will_paginate'
 
 group :development, :test do
   gem 'rspec-rails'
