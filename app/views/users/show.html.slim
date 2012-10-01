@@ -4,6 +4,10 @@
 dl.dl-horizontal
   dt
     strong
+      = model_class.human_attribute_name(:gravatar)
+  dd= image_tag link_to_gravatar @user.email, 150
+  dt
+    strong
       = model_class.human_attribute_name(:login)
   dd= @user.login
   dt

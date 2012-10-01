@@ -6,6 +6,7 @@ table.table.table-striped
     tr
       th= model_class.human_attribute_name(:login)
       th= model_class.human_attribute_name(:email)
+      th= "Info"
       th= "Admin?"
       th= t '.actions', :default => t("helpers.actions")
   tbody
@@ -13,6 +14,7 @@ table.table.table-striped
       tr
         td= link_to user.login, user_path(user)
         td= user.email
+        td= image_tag link_to_gravatar user.email, 50
         td= user.role.admin
         td
           = link_to t('.edit', :default => t("helpers.links.edit")), \
