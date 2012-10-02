@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121001135135) do
+ActiveRecord::Schema.define(:version => 20121002081416) do
 
   create_table "codes", :force => true do |t|
     t.integer  "generated_code"
@@ -33,11 +33,11 @@ ActiveRecord::Schema.define(:version => 20121001135135) do
 
   create_table "users", :force => true do |t|
     t.string   "login"
-    t.string   "password"
+    t.string   "password_digest"
     t.string   "email"
     t.boolean  "two_step_auth"
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
     t.string   "remember_token"
   end
 

@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
   attr_accessible :email, :login, :password, :password_confirmation, :two_step_auth, :code, :remember_token
   before_validation :make_role
   before_save :create_remember_token
-  before_save :hide_password
+  #before_save :hide_password
 
   has_one :role, dependent: :destroy
   has_many :codes
@@ -21,12 +21,15 @@ class User < ActiveRecord::Base
 
   def self.authenticate(login_or_email, pass)
     user = User.find_by_email(login_or_email) || User.find_by_login(login_or_email)
-
-    if user && UserHelper.check(pass, user.password)
+    if user && user.check_password(pass)
       user
     else
       nil
     end
+  end
+
+  def check_password(unencrypted_password)
+    BCrypt::Password.new(self.password_digest) == unencrypted_password
   end
 
   def update_activation_code!
@@ -47,7 +50,7 @@ class User < ActiveRecord::Base
       created_at = code.created_at
       code.destroy
 
-      result = user if code && (Time.now - created_at < 32)
+      result = user if user && (Time.now - created_at < 32)
     end
 
     result
@@ -63,9 +66,9 @@ class User < ActiveRecord::Base
     self.remember_token = SecureRandom.urlsafe_base64
   end
 
-  def hide_password
-    self.password = BCrypt::Password.create
-  end
+  #def hide_password
+  #  self.password = BCrypt::Password.create self.password
+  #end
 
   def make_role
     build_role
