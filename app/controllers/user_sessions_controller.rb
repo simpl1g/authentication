@@ -18,7 +18,7 @@ class UserSessionsController < ApplicationController
           format.js
         end
       else
-        sign_in @user
+        sign_in_user @user
         redirect_to @user
       end
     else
@@ -30,7 +30,7 @@ class UserSessionsController < ApplicationController
   def create
     @user = User.find_by_activation_code(params[:code])
     if @user
-      sign_in @user
+      sign_in_user @user
       respond_to do |format|
         format.html {redirect_to @user}
         format.js

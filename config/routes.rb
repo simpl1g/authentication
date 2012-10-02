@@ -1,4 +1,8 @@
 Authentication::Application.routes.draw do
+  devise_for :admin_users, ActiveAdmin::Devise.config
+
+  ActiveAdmin.routes(self)
+
   match "/login" => 'user_sessions#new', :as => :login
   match "/do_login" => 'user_sessions#create', :as => :do_login
   match "/logout" => 'user_sessions#destroy', :as => :logout
