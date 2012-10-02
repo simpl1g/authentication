@@ -9,7 +9,7 @@
       .container.nav-collapse
         ul.nav
           li= link_to "Users", users_path
-          li= link_to image_tag("fb_button.gif"), :controller => 'oauth', :action => 'start'
+          li= link_to "Facebook", :controller => 'oauth', :action => 'start'
           - if signed_in?
             li= link_to current_user.login, current_user, id: "current_user"
             li= link_to "LogOut", logout_path, id: "logout"
