@@ -28,7 +28,7 @@ gem 'faker'
 gem 'slim'
 gem 'will_paginate'
 gem 'bcrypt-ruby'
-gem 'oauth2'
+gem 'koala'
 
 group :development, :test do
   gem 'rspec-rails'

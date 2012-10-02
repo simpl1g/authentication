@@ -6,7 +6,8 @@ class UsersController < ApplicationController
     # GET /users.json
     def index
       @users = User.paginate(page: params[:page])
-
+      @api = Koala::Facebook::API.new(session[:access_token])
+      @email = @api.get_object("/me")
       respond_to do |format|
         format.html # index.html.erb
         format.json { render json: @users }

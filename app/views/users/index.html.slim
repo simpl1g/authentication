@@ -1,6 +1,7 @@
 - model_class = User
 .page-header
   h1= t '.title', :default => model_class.model_name.human.pluralize
+.alert= @email.to_s
 .apple_pagination
   = will_paginate @users, :container => false
 table.table.table-striped

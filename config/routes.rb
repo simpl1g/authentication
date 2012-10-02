@@ -5,9 +5,9 @@ Authentication::Application.routes.draw do
   match "/check_user" => 'user_sessions#check_user', :as => :check
   root :to => 'user_sessions#new'
   resources :users
-  match "/auth/signin" => "oauth#start"
-  match "/auth/callback" => "oauth#callback", as: :oauth_callback
-  match "/auth/failure" => "oauth#failure"
+  match "signin" => "oauth#start"
+  match "callback" => "oauth#callback", as: :oauth_callback
+  match "failure" => "oauth#failure"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
