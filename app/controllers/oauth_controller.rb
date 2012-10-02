@@ -6,7 +6,7 @@ class OauthController < ApplicationController
   end
 
   def callback
-    access_token = client.auth_code.get_access_token(
+    access_token = client.auth_code.get_token(
       params[:code], :redirect_uri => oauth_callback_url
     )
 
