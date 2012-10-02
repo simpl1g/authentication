@@ -1,7 +1,7 @@
 class UserSessionsController < ApplicationController
 
   def new
-    redirect_to current_user if signed_in?
+    #redirect_to current_user if signed_in?
     respond_to do |format|
         format.html
         format.js
