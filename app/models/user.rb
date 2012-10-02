@@ -1,12 +1,13 @@
 class User < ActiveRecord::Base
   attr_accessible :email, :login, :password, :password_confirmation, :two_step_auth, :code, :remember_token
+  before_validation :make_role
   before_save :create_remember_token
   before_save :hide_password
-  after_create :make_role
-  after_create :first_to_admin
-  after_destroy :check_first
+
   has_one :role, dependent: :destroy
   has_many :codes
+
+  has_secure_password
 
   validates :login, presence: true, uniqueness: true
   validates_confirmation_of :password
@@ -20,8 +21,36 @@ class User < ActiveRecord::Base
 
   def self.authenticate(login_or_email, pass)
     user = User.find_by_email(login_or_email) || User.find_by_login(login_or_email)
-    user ? user : (return false)
-    user && UserHelper.check(pass, user.password) ? user : false
+
+    if user && UserHelper.check(pass, user.password)
+      user
+    else
+      nil
+    end
+  end
+
+  def update_activation_code!
+    code = self.codes.build(generated_code: UserHelper.generate_code(self.email))
+    code.save
+  end
+
+  def get_activation_code
+    self.codes.last.generated_code
+  end
+
+  def self.find_by_activation_code code
+    code = Code.find_by_generated_code(code)
+    result = nil
+
+    if code
+      user = code.user
+      created_at = code.created_at
+      code.destroy
+
+      result = user if code && (Time.now - created_at < 32)
+    end
+
+    result
   end
 
   def admin?
@@ -35,20 +64,11 @@ class User < ActiveRecord::Base
   end
 
   def hide_password
-    self.password = UserHelper.update(self.password)
+    self.password = BCrypt::Password.create
   end
 
   def make_role
-    Role.create(admin: false, user_id: self.id)
-    #self.build_role(admin: false)
-  end
-
-  def first_to_admin
-    Role.first.update_attributes(admin: true) if User.count == 1
-  end
-
-  def check_first
-    Role.first.update_attributes(admin: true) unless Role.find_by_admin true
+    build_role
   end
 
 end

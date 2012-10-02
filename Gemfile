@@ -25,6 +25,7 @@ gem 'twitter-bootstrap-rails'
 gem 'faker'
 gem 'slim'
 gem 'will_paginate'
+gem 'bcrypt-ruby'
 
 group :development, :test do
   gem 'rspec-rails'

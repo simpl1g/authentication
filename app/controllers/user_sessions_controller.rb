@@ -9,11 +9,10 @@ class UserSessionsController < ApplicationController
   end
 
   def check_user
-      @user = User.authenticate(params[:login], params[:password])
+    @user = User.authenticate(params[:login], params[:password])
     if @user
       if @user.two_step_auth
-        @code = @user.codes.build(generated_code: UserHelper.generate_code(@user.email))
-        @code.save
+        @user.update_activation_code!
         respond_to do |format|
           format.html
           format.js
@@ -29,13 +28,8 @@ class UserSessionsController < ApplicationController
   end
 
   def create
-    @code = Code.find_by_generated_code(params[:code])
-    if @code
-      @user = @code.user
-      created_at = @code.created_at
-      @code.destroy
-    end
-    if @code && (Time.now - created_at < 32)
+    @user = User.find_by_activation_code(params[:code])
+    if @user
       sign_in @user
       respond_to do |format|
         format.html {redirect_to @user}

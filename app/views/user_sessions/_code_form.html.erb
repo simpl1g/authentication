@@ -1,5 +1,5 @@
 <div class="show">
-  <p id="code" class="alert"><%= @code.generated_code %></p>
+  <p id="code" class="alert"><%= @user.get_activation_code %></p>
   <%= form_tag( url_for(controller: "user_sessions", action: "create"), :class => 'form-horizontal', remote: true) do %>
       <div class="control-group">
         <%= label_tag :code, "Code", :class => 'control-label' %>
