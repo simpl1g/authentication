@@ -1,8 +1,6 @@
 class OauthController < ApplicationController
   def start
-    redirect_to client.auth_code.authorize_url(
-      :redirect_uri => oauth_callback_url, :scope => 'email'
-    )
+    redirect_to "https://www.facebook.com/dialog/oauth?client_id=#{param['app_id']}&redirect_uri=#{oauth_callback_url}&scope=email&state=123456"
   end
 
   def callback
@@ -21,13 +19,15 @@ class OauthController < ApplicationController
   protected
 
   def client
-    #facebook_settings = YAML::load(File.open("#{Rails.root}/config/oauth.yml"))
-    all_oauth_config = YAML.load_file( File.join( Rails.root, 'config', 'oauth.yml' ) )
-    facebook_settings = all_oauth_config[Rails.env]['facebook']
+    @facebook_settings = param
     @client ||= OAuth2::Client.new(
-      "#{facebook_settings['app_id']}", "#{facebook_settings['app_secret']}",
+      "#{@facebook_settings['app_id']}", "#{@facebook_settings['app_secret']}",
       :site => 'https://graph.facebook.com'
     )
+  end
+
+  def param
+    YAML.load_file( File.join( Rails.root, 'config', 'oauth.yml' ) )[[Rails.env]['facebook']]
   end
 
 end
