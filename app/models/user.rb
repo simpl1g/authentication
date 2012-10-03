@@ -1,10 +1,8 @@
 class User < ActiveRecord::Base
   attr_accessible :email, :login, :password, :password_confirmation, :two_step_auth, :code, :remember_token
-  before_validation :make_role
-  before_save :create_remember_token
-  #before_save :hide_password
 
-  has_one :role, dependent: :destroy
+  before_save :create_remember_token
+
   has_many :codes
 
   has_secure_password
@@ -33,8 +31,12 @@ class User < ActiveRecord::Base
   end
 
   def update_activation_code!
-    code = self.codes.build(generated_code: UserHelper.generate_code(self.email))
+    code = self.codes.build(generated_code: generate_code(self.email))
     code.save
+  end
+
+  def generate_code(email)
+    Digest::SHA512.hexdigest("#{email}:#{salt}").gsub(/[a-z]/i,"")[0..5]
   end
 
   def get_activation_code
@@ -66,12 +68,8 @@ class User < ActiveRecord::Base
     self.remember_token = SecureRandom.urlsafe_base64
   end
 
-  #def hide_password
-  #  self.password = BCrypt::Password.create self.password
+  #def make_role
+  #  build_role
   #end
-
-  def make_role
-    build_role
-  end
 
 end

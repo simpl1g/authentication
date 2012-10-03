@@ -55,15 +55,6 @@ ActiveRecord::Schema.define(:version => 20121002165531) do
 
   add_index "codes", ["generated_code", "user_id"], :name => "index_codes_on_generated_code_and_user_id"
 
-  create_table "roles", :force => true do |t|
-    t.boolean  "admin",      :default => false
-    t.integer  "user_id"
-    t.datetime "created_at",                    :null => false
-    t.datetime "updated_at",                    :null => false
-  end
-
-  add_index "roles", ["user_id"], :name => "index_roles_on_user_id"
-
   create_table "users", :force => true do |t|
     t.string   "login"
     t.string   "password_digest"
