@@ -17,7 +17,7 @@
 
 jQuery(document).ready(function ($) {
     $('div#login-modal').on('hidden', function () {
-        $('div.row').html("");
+//        $('div.row').html("");
     })
 });
 
