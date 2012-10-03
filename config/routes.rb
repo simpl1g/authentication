@@ -7,7 +7,7 @@ Authentication::Application.routes.draw do
   match "/do_login" => 'user_sessions#create', :as => :do_login
   match "/logout" => 'user_sessions#destroy', :as => :logout
   match "/check_user" => 'user_sessions#check_user', :as => :check
-  root :to => 'user_sessions#new'
+  root :to => 'users#index'
   resources :users
   match "signin" => "oauth#start"
   match "callback" => "oauth#callback", as: :oauth_callback

@@ -21,17 +21,30 @@ module UserSessionsHelper
   end
 
   def sign_out
+    delete_user_location
     self.current_user = nil
     cookies.delete(:remember_token)
   end
 
-  def redirect_back_or(default)
-    redirect_to(session[:return_to] || default)
-    session.delete(:return_to)
+  def get_user_location
+    user = User.find(session[:return_to_user])
+    user ? user : nil
   end
 
-  def store_location
-    session[:return_to] = request.url
+  def delete_user_location
+    session[:return_to_user] = nil
+  end
+
+  def store_user_location(user_id)
+    session[:return_to_user] = user_id
+  end
+
+  def sign_in_and_get_location(user)
+    sign_in_user user
+    user = get_user_location || user
+    delete_user_location
+
+    user
   end
 
 end

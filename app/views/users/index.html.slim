@@ -17,6 +17,6 @@ table.table.table-striped
         td= user.login
         td= user.email
         td= image_tag link_to_gravatar user.email, 50
-        td= link_to "Show", user_path(user), class: 'btn', remote: true
+        td= link_to_user user
 
 = link_to t('.new', :default => t("helpers.links.new")), new_user_path, :class => 'btn btn-primary'

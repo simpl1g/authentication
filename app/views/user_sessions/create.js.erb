@@ -1,3 +1,4 @@
 $("p#login-body").html("")
 $("div.modal").modal('toggle');
 $("div.navbar.navbar-fixed-top").replaceWith("<%= j render "layouts/header" %>")
+$(".offset3.span6").html("").append("<%= j render(template: "users/show") %>")

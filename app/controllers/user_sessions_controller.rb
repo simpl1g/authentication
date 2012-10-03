@@ -1,6 +1,7 @@
 class UserSessionsController < ApplicationController
 
   def new
+    #store_location
     #redirect_to current_user if signed_in?
     respond_to do |format|
         format.html
@@ -18,8 +19,11 @@ class UserSessionsController < ApplicationController
           format.js
         end
       else
-        sign_in_user @user
-        redirect_to @user
+        @user = sign_in_and_get_location @user
+        respond_to do |format|
+          format.html {redirect_to @user}
+          format.js {render "user_sessions/create"}
+        end
       end
     else
       flash[:notice] = "Wrong Login, Email or Password"
@@ -30,7 +34,7 @@ class UserSessionsController < ApplicationController
   def create
     @user = User.find_by_activation_code(params[:code])
     if @user
-      sign_in_user @user
+      @user = sign_in_and_get_location @user
       respond_to do |format|
         format.html {redirect_to @user}
         format.js

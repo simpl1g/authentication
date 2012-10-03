@@ -20,11 +20,9 @@ html lang="en"
     = debug params
     = debug session
     = javascript_include_tag "application"
-    .modal.hide.fade
+    .modal.hide.fade#login-modal
       .modal-header
         button.close type="button" data-dismiss="modal" aria-hidden="true" &times;
         h3 Login
       .modal-body
         p#login-body
-      .modal-footer
-        a.btn href="#" Close

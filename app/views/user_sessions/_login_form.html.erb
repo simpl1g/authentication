@@ -12,6 +12,7 @@
       </div>
     </div>
     <div class="form-actions">
-      <%= submit_tag "Submit", :class => 'btn btn-primary' %>
+      <%= submit_tag "LogIn", :class => 'btn btn-primary' %>
+      <%= link_to "LogIn via Facebook", url_for(:controller => 'oauth', :action => 'start'), :class => 'btn btn-primary' %>
     </div>
 <% end %>

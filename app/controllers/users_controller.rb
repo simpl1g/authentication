@@ -1,13 +1,12 @@
 class UsersController < ApplicationController
 
+    before_filter :save_user_to_go, only: :show
     before_filter :signed?, except: [:new, :create, :index]
 
     # GET /users
     # GET /users.json
     def index
       @users = User.paginate(page: params[:page])
-      #@api = Koala::Facebook::API.new(session[:access_token])
-      #@email = @api.get_object("/me")
       respond_to do |format|
         format.html # index.html.erb
         format.json { render json: @users }
@@ -87,6 +86,13 @@ class UsersController < ApplicationController
     end
 
   private
+
+    def save_user_to_go
+      if request.xhr?
+        store_user_location params[:id]
+      end
+
+    end
 
     def signed?
       redirect_to :login unless signed_in?

@@ -14,3 +14,11 @@
 //= require jquery_ujs
 //= require twitter/bootstrap
 //= require_tree .
+
+jQuery(document).ready(function ($) {
+    $('div#login-modal').on('hidden', function () {
+        $('div.row').html("");
+    })
+});
+
+
