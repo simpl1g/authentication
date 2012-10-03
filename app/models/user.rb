@@ -36,7 +36,11 @@ class User < ActiveRecord::Base
   end
 
   def generate_code(email)
-    Digest::SHA512.hexdigest("#{email}:#{salt}").gsub(/[a-z]/i,"")[0..5]
+    Digest::SHA512.hexdigest("#{email}:#{salt}").gsub(/[a-z]/i, "")[0..5]
+  end
+
+  def salt
+    SecureRandom.hex(32)
   end
 
   def get_activation_code
@@ -56,6 +60,17 @@ class User < ActiveRecord::Base
     end
 
     result
+  end
+
+  def self.find_from_facebook(opts)
+    user = User.find_by_email(opts["email"])
+    if user
+
+      return user
+    else
+
+      return User.create(login: opts["name"], email: opts["email"], password: BCrypt::Password.create(rand 999999), two_step_auth: true)
+    end
   end
 
   private

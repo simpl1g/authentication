@@ -7,12 +7,13 @@
         span.icon-bar
       a.brand href="/" Authentication
       .container.nav-collapse
-        ul.nav
+        ul.nav.pull-right
+          li= link_to "Admin Panel", admin_root_path
           li= link_to "Users", users_path
-          li= link_to "Facebook", :controller => 'oauth', :action => 'start'
           - if signed_in?
             li= link_to current_user.login, current_user, id: "current_user"
             li= link_to "LogOut", logout_path, id: "logout"
           - else
-            li= link_to "SignIn", new_user_path, id: "sign_in"
+            li= link_to "SignUp", new_user_path, id: "sign_in"
             li= link_to "LogIn", login_path, id: "login"
+            li= link_to "LogIn via Facebook", :controller => 'oauth', :action => 'start'

@@ -8,8 +8,9 @@ class OauthController < ApplicationController
     oauth= Koala::Facebook::OAuth.new(APP_ID, APP_SECRET,REDIRECT_URI)
     graph = Koala::Facebook::API.new(oauth.get_access_token(params[:code]))
     @email_and_name = graph.get_object("/me?fields=name,email")
-    User.find_or_create_by_email(@email_and_name["email"])
-    redirect_to(controller: "users", :action=>"index")
+    @user = User.find_from_facebook(@email_and_name)
+    sign_in_user @user
+    redirect_to @user
   end
 
   def destroy
