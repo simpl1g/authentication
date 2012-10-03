@@ -58,18 +58,10 @@ class User < ActiveRecord::Base
     result
   end
 
-  def admin?
-    self.role.admin?
-  end
-
   private
 
   def create_remember_token
     self.remember_token = SecureRandom.urlsafe_base64
   end
-
-  #def make_role
-  #  build_role
-  #end
 
 end
