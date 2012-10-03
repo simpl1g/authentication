@@ -26,7 +26,7 @@ gem 'will_paginate'
 gem 'bcrypt-ruby'
 gem 'koala'
 gem 'activeadmin'
-gem 'asset_sync'
+#gem 'asset_sync'
 
 group :development, :test do
   gem 'rspec-rails'
