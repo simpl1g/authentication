@@ -1,8 +1,8 @@
 AssetSync.configure do |config|
   config.fog_provider = 'AWS'
-  config.aws_access_key_id = AWS_ACCESS_KEY_ID
-  config.aws_secret_access_key = AWS_SECRET_ACCESS_KEY
-  config.fog_directory = FOG_DIRECTORY
+  config.aws_access_key_id = 'AKIAI2Z2WLRZMPRW4C5Q'
+  config.aws_secret_access_key = 'Unls8FIjyiRIB81TAOkaKZ+XY8gOS4aYNGm6kLI4'
+  config.fog_directory = 'ruby_gardens4'
 
   # Increase upload performance by configuring your region
   # config.fog_region = 'eu-west-1'
