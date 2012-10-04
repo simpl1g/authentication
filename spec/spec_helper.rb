@@ -13,6 +13,17 @@ end
 
 require 'rubygems'
 require 'spork'
+
+def login
+  FactoryGirl.create(:user)
+  visit login_path
+  within(".form-horizontal") do
+    fill_in 'Login or Email', :with => 'sim@sim.sim'
+    fill_in 'Password', :with => '123'
+  end
+  click_button 'Submit'
+end
+
 #uncomment the following line to use spork with the debugger
 #require 'spork/ext/ruby-debug'
 

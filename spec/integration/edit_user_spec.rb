@@ -1,5 +1,4 @@
 require 'spec_helper'
-include UserHelper
 
 describe 'login' do
   before :each do
@@ -20,6 +19,11 @@ describe 'login' do
     visit edit_user_path @user
     page.should have_content('Edit User')
   end
+
+  #it 'deletes profile' do
+  #  delete( user_path, @user.id)
+  #  page.should have_content('Edit User')
+  #end
 
   #it "should return link without remote if signed in" do
   #  UserHelper.stub(:link_to_user,@user).and_return(:link)

@@ -4,14 +4,18 @@ require 'spec_helper'
 describe UserSessionsController do
   render_views
 
-  it "signs me in without two step" do
-    FactoryGirl.create(:user)
+  def two_step_login
+    @user = FactoryGirl.create(:user, :two_step_auth => true)
     visit login_path
     within(".form-horizontal") do
-      fill_in 'Login or Email', :with => 'sim@sim.sim'
+      fill_in 'Login or Email', :with => 'sim'
       fill_in 'Password', :with => '123'
     end
     click_button 'Submit'
+  end
+
+  it "signs me in without two step" do
+    login
     page.should have_content('sim@sim.sim')
   end
 
@@ -28,13 +32,7 @@ describe UserSessionsController do
 
   describe "login with two step" do
     before :each do
-      @user = FactoryGirl.create(:user, :two_step_auth => true)
-      visit login_path
-      within(".form-horizontal") do
-        fill_in 'Login or Email', :with => 'sim'
-        fill_in 'Password', :with => '123'
-      end
-      click_button 'Submit'
+      two_step_login
     end
 
     it "gives me code with two step" do
