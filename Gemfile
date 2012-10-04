@@ -41,6 +41,7 @@ group :test do
   gem 'libnotify'
   gem 'rb-inotify'
   gem 'simplecov', :require => false
+  gem 'factory_girl_rails'
 end
 
 # To use ActiveModel has_secure_password

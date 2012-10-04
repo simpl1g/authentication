@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'user model' do
   before(:each) do
-    @user = User.create!(login: "sim", email: "sim@sim.sim", password: "123", two_step_auth: false)
+    @user = FactoryGirl.create(:user)
   end
 
   describe 'validators' do
@@ -31,7 +31,38 @@ describe 'user model' do
     end
 
     it "should not authenticate with wrong password" do
-      User.authenticate("sim@sim.sim", "1234").should == false
+      User.authenticate("sim@sim.sim", "1234").should == nil
+    end
+
+    it "shoud find user with email from facebook" do
+      User.find_from_facebook({"email" => "sim@sim.sim", "name" => "dsaxcz"}).should == @user
+    end
+
+    it "shoud create user with email from facebook" do
+      expect{
+        User.find_from_facebook({"email" => "simdf@sim.sim", "name" => "dsaxcz"})
+      }.to change(User, :count).by(1)
+    end
+
+    it "should generate activation code" do
+      expect{
+        @user.update_activation_code!
+      }.to change(Code, :count).by(1)
+    end
+
+    it "should get activation code" do
+      @user.update_activation_code!
+      @user.get_activation_code.should eq @user.codes.last.generated_code
+    end
+
+    it "should find user by correct activation code" do
+      @user.update_activation_code!
+      @user.should eq(User.find_by_activation_code @user.get_activation_code)
+    end
+
+    it "should not find user by incorrect activation code" do
+      @user.update_activation_code!
+      @user.should_not eq(User.find_by_activation_code "dsfsdf")
     end
 
   end

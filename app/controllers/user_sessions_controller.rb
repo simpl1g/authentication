@@ -41,7 +41,10 @@ class UserSessionsController < ApplicationController
       end
     else
       flash[:notice] = "Wrong Code or Time Expired  "
-      redirect_to root_path
+      respond_to do |format|
+        format.html {redirect_to login_path}
+        format.js {render 'user_sessions/new'}
+      end
     end
   end
 
