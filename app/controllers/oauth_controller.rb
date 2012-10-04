@@ -11,9 +11,9 @@ class OauthController < ApplicationController
     else
       oauth = get_oauth
       graph = Koala::Facebook::API.new(oauth.get_access_token(params[:code]))
-      @email_and_name = graph.get_object("/me?fields=name,email")
-      @user = User.find_from_facebook(@email_and_name)
-      @user = sign_in_and_get_location @user
+      email_and_name = graph.get_object("/me?fields=name,email")
+      user = User.find_from_facebook(email_and_name)
+      @user = sign_in_and_get_location user
       redirect_to @user
     end
   end

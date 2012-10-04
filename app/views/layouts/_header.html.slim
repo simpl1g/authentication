@@ -15,5 +15,5 @@
             li= link_to "LogOut", logout_path, id: "logout"
           - else
             li= link_to "SignUp", new_user_path, id: "sign_in"
-            li= link_to "LogIn", login_path, id: "login"
+            li= link_to "LogIn", login_path, id: "login", remote: true
             li= link_to "LogIn via Facebook", :controller => 'oauth', :action => 'start'

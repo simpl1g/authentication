@@ -27,8 +27,13 @@ module UserSessionsHelper
   end
 
   def get_user_location
-    user = User.find(session[:return_to_user])
-    user ? user : nil
+    begin
+
+      user = User.find(session[:return_to_user])
+    rescue
+
+      nil
+    end
   end
 
   def delete_user_location
